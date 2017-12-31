@@ -42,11 +42,6 @@ echo >&2
 #######################################################################
 
 chkPreReq() {
-	if ! test -f $(dirname $0)/shared.utils.lib.sh; then
-		echo "Did not find shared.utils.lib.sh" >&2
-		exit 1
-	fi
-
 	FFMPEGCMD=""
 	type ffmpeg &> /dev/null && FFMPEGCMD="ffmpeg"
 	type avconv &> /dev/null && FFMPEGCMD="avconv"
@@ -54,7 +49,7 @@ chkPreReq() {
 		echo "Could not find ffmpeg or avconv in PATH." >&2
 		exit 1
 	fi
-	
+
 	if ! type lsdvd &> /dev/null; then
 		echo "Could not find lsdvd in PATH." >&2
 		exit 1
@@ -85,14 +80,6 @@ chkPreReq() {
 		exit 1
 	fi
 }
-
-load_libs() {
-	if ! . $(dirname $0)/shared.utils.lib.sh; then
-		echo "Can't load shared.utils.lib.sh" >&2
-		exit 1
-	fi
-}
-
 
 set_maxmem() {
 	local MEM=$(free -k | awk -v "fac=$MAXMEM" '/^Mem:/ {print $2*fac}')
@@ -1415,7 +1402,6 @@ cat_debug_log << EOF
 EOF
 
 chkPreReq	#check prerequisites
-load_libs
 
 set_dvd_dev "$1"
 set_lsdvd
