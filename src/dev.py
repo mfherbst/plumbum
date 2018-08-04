@@ -32,9 +32,16 @@ import subprocess
 class Device(object):
     """DVD device interface.
 
+    :cvar str PATH: PATH
+    :cvar str DUMPFILE: dumpfile
+    :cvar str CHAPTERINFO: chapter information
+
     :ivar str device: DVD device
     :ivar dict titles: DVD titles
     """
+    PATH = "dvd://{}//{}"
+    DUMPFILE = "dump{}.vob"
+    CHAPTERINFO = "chapterinfo{}.txt"
 
     def __init__(self, device=""):
         """Initialize DVD device interface.
@@ -109,7 +116,7 @@ class Device(object):
                 match = title.match(line)
                 if match:
                     unpadded = re.compile("[1-9][0-9]*")
-                    number = unpadded.findall(match.group(1))[0]
+                    number = unpadded.findall(match.group(1))[0].zfill(2)
                     name = "title{}".format(number)
                     titles[number] = {"name": name, "info": line}
         except Exception as exception:
@@ -117,3 +124,33 @@ class Device(object):
                 "failed to get titles\t: {}".format(exception)
             )
         return titles
+
+    def rip(self, titles):
+        """Rip titles.
+
+        :param list titles: list of titles
+        """
+        try:
+            for title in titles:
+                args = [
+                    "mplayer",
+                    self.PATH.format(self.device, title)
+                    "-v",
+                    "-dumpstream",
+                    "-dumpfile", self.DUMPFILE.format(title)
+                ]
+                subprocess.Popen(args)
+                fp = open(self.CHAPTERINFO.format(self.title))
+                args = [
+                    "dvdxchap",
+                    "-t", title,
+                    self.device,
+                ]
+                subprocess.Popen(args, stdout=fp)
+        except Exception:
+            raise RuntimeError(
+                "failed to rip titles\t: {}".format(exception)
+            )
+        finally:
+            fp.close()
+        return
