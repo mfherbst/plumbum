@@ -1,3 +1,5 @@
+"""Interactively rip a DVD"""
+
 __version__ = "0.0.0"
 
 __licence__ = "GPL v3"

@@ -14,8 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Module to send desktop notifications"""
 
-# third party imports
 try:
     import notify2
 
@@ -26,11 +26,20 @@ try:
         notify2.init(name)
 
     def send(summary, message="", icon=""):
+        """
+        Send a desktop notification
+        """
         notification = notify2.Notification(summary, message, icon)
         notification.show()
 except ImportError:
-    def init(name):
+    def init(name):  # pylint: disable=unused-argument
+        """
+        Initialise notifications under the given name
+        """
         pass
 
-    def send(*args, **kwargs):
+    def send(*args, **kwargs):  # pylint: disable=unused-argument
+        """
+        Send a desktop notification
+        """
         pass

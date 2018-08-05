@@ -3,6 +3,7 @@
 .*.swo
 
 *.pyc
-/dist
 build
+/dist
+/.pytest_cache
 *.egg-info

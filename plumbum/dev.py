@@ -140,16 +140,16 @@ class Device(object):
                     "-dumpfile", self.DUMPFILE.format(title)
                 ]
                 subprocess.Popen(args)
-                fp = open(self.CHAPTERINFO.format(self.title))
+                fp = open(self.CHAPTERINFO.format(title))
                 args = [
                     "dvdxchap",
                     "-t", title,
                     self.device,
                 ]
                 subprocess.Popen(args, stdout=fp)
-        except Exception:
+        except Exception as exc:
             raise RuntimeError(
-                "failed to rip titles\t: {}".format(exception)
+                "failed to rip titles\t: {}".format(exc)
             )
         finally:
             fp.close()

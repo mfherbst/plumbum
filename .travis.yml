@@ -1,0 +1,34 @@
+sudo: false
+language: python
+cache: pip
+python:
+  - "3.5"
+  - "3.6"
+
+install:
+  - travis_retry pip install -r requirements.txt
+  - travis_retry pip install pytest flake8 pylint
+
+script:  # This is the 'test' build stage
+  - pytest
+  - pip install ${TRAVIS_BUILD_DIR}
+
+# These jobs are only run with the first python version
+# mentioned in the initial list.
+jobs:
+  include:
+    - stage: code style
+      script: pylint plumbum
+      env: CODE_STYLE="pylint"
+    - script: flake8
+      env: CODE_STYLE="flake8"
+    #
+    - stage: deploy
+      # TODO deploy to pip
+      script: skip
+
+stages:
+  - code style
+  - test
+  - name: deploy
+    if: branch = master AND type = push
