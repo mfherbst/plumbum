@@ -1,5 +1,5 @@
 #    This file is part of Plumbum 1.0.
-#    Copyright (C) 2018  Carine Dengler
+#    Copyright (C) 2018  Carine Dengler and Michael Herbst
 #
 #    Plumbum is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ class Device(object):
             for title in titles:
                 args = [
                     "mplayer",
-                    self.PATH.format(self.device, title)
+                    self.PATH.format(title, self.device),
                     "-v",
                     "-dumpstream",
                     "-dumpfile", self.DUMPFILE.format(title)

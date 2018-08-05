@@ -1,5 +1,5 @@
 #    This file is part of Plumbum 1.0.
-#    Copyright (C) 2018  Carine Dengler
+#    Copyright (C) 2018  Carine Dengler and Michael Herbst
 #
 #    Plumbum is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -63,6 +63,21 @@ class PlumbumShell(cmd.Cmd):
                     self.device.titles[title]["name"] = name
                 else:
                     raise RuntimeError("no title {}".format(title))
+        except RuntimeError as exception:
+            print(exception)
+        except Exception:
+            raise
+        return
+
+    def do_rip(self, arg):
+        """Rip titles."""
+        try:
+            titles = arg.split(" ")
+            if titles:
+                pass
+            else:
+                titles = list(self.device.titles.keys())
+            self.device.rip(titles)
         except RuntimeError as exception:
             print(exception)
         except Exception:

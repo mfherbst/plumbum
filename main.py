@@ -1,5 +1,5 @@
 #    This file is part of plumbum 1.0.
-#    Copyright (C) 2018  Carine Dengler
+#    Copyright (C) 2018  Carine Dengler and Michael Herbst
 #
 #    plumbum is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
