@@ -22,31 +22,31 @@
 
 # standard library imports
 import sys
+import os
 
 # third party imports
-import notify2
-
 # library specific imports
-import src.ui
+from . import ui
+from . import notification
 
 
 def main():
     """main function."""
     try:
+        prog = os.path.basename(sys.argv[0])
+        notification.init(prog)
+
         intro = (
             "Welcome to the Plumbum shell.\t"
             "Type help or ? to list commands.\n"
             "Using SCSI CD-ROM device\t: {}"
         )
-        plumbum_shell = src.ui.PlumbumShell()
+        plumbum_shell = ui.PlumbumShell()
         plumbum_shell.cmdloop(
             intro=intro.format(plumbum_shell.device.device)
         )
-        prog = sys.argv[0].split("/")[-1]
-        notify2.init(prog)
-        msg = "finished execution"
-        notification = notify2.Notification(prog, message=msg)
-        notification.show()
+
+        notification.send("{} finished.".format(prog))
     except Exception:
         raise
     return

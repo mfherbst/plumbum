@@ -21,14 +21,11 @@
 
 
 # standard library imports
-import os
 import cmd
-import subprocess
-import readline
 
 # third party imports
 # library specific imports
-import src.dev
+from . import dev
 
 
 class PlumbumShell(cmd.Cmd):
@@ -37,12 +34,12 @@ class PlumbumShell(cmd.Cmd):
     :cvar str prompt: prompt
     :ivar Device device: DVD device interface
     """
-    prompt = "(plumbum) "
+    prompt = "(pb) "
 
     def __init__(self):
         """Initialize Plumbum shell."""
         super().__init__()
-        self.device = src.dev.Device()
+        self.device = dev.Device()
         return
 
     def do_list(self, arg):
@@ -86,5 +83,9 @@ class PlumbumShell(cmd.Cmd):
 
     def do_bye(self, arg):
         """Close plumbum shell."""
+        print()
         print("Thank you for using Plumbum")
         return True
+
+    do_quit = do_bye
+    do_EOF = do_bye
